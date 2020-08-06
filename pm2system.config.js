@@ -6,7 +6,7 @@ module.exports = {
     {
       name: 'gis-platform',//项目名称
       cwd: "./",// 当前工作路径
-      script: 'node ./bin/www',// 实际启动脚本
+      script: './bin/www',// 实际启动脚本
       error_file: './error.log',    //错误日志文件输出路径
       out_file: './out.log',        //正确日志输出文件
       combine_logs: true,   //如果设置为true，则避免使用进程ID后缀日志文件
