@@ -210,10 +210,10 @@ router.get('/getPointList', auth, async (req, res) => {
     message: 'success'
   })
 })
-//  获取用户点位列表  类型
+//  根据类型获取用户点位列表
 /**
- * @api {get} /api/point/getPointListByType  获取用户点位列表  类型
- * @apiDescription  获取用户点位列表  类型
+ * @api {get} /api/point/getPointListByType  根据类型获取用户点位列表
+ * @apiDescription  根据类型获取用户点位列表
  * @apiName getPointListByType
  * @apiGroup Point
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
@@ -404,10 +404,10 @@ router.post('/editPointBasemsg', auth, async (req, res) => {
     message: 'success'
   })
 })
-// 修改、编辑桥梁信息
+// 编辑桥梁信息
 /**
- * @api {post} /api/point/editQiaoliangDetail  修改、编辑桥梁信息
- * @apiDescription  修改、编辑桥梁信息
+ * @api {post} /api/point/editQiaoliangDetail  编辑桥梁信息
+ * @apiDescription  编辑桥梁信息
  * @apiName editQiaoliangDetail
  * @apiGroup Point
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
@@ -624,5 +624,166 @@ router.post('/editHandongDetail', auth, async (req, res) => {
     message: 'success'
   })
 })
+// 修改、编辑风险信息
+/**
+ * @api {post} /api/point/editFengxianDetail  修改、编辑风险信息
+ * @apiDescription  修改、编辑风险信息
+ * @apiName editFengxianDetail
+ * @apiGroup Point
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
 
+ * @apiParam {string} name 名称
+ * @apiParam {string} address 地址
+ * @apiParam {string} updateAt 修改时间
+
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} data
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "data": [
+ *   {
+ *     "isDeleted": 0,
+ *     "_id": "5f27acea5070a33860578646",
+ *     "user_id": "5f2290e7cf2a793e64e74201",
+ *     "name": "监控1",
+ *     "type": "jk",
+ *     "lng": 115.866398,
+ *     "lat": 33.95615,
+ *     "alt": -589.9,
+ *     "viewdata": "{\"y\":25.532849,\"x\":115.323881,\"z\":1217493.68,\"heading\":359.2,\"pitch\":-53,\"roll\":0}",
+ *     "remark": "监控",
+ *     "createdAt": "2020-08-03T06:21:30.748Z",
+ *     "__v": 0
+ *    }
+ *  ],
+ *  "message": "success"
+ * }
+ * @apiSampleRequest http://localhost:3000/api/point/editFengxianDetail
+ * @apiVersion 0.1.0
+ */
+router.post('/editFengxianDetail', auth, async (req, res) => {
+  let data = await Fengxians.where({
+    _id: req.body._id, isDeleted: 0
+  }).updateOne({
+    name: req.body.name,
+    address: req.body.address,
+    updateAt: req.query.t,
+  })
+  res.send({
+    code: 200,
+    data: data,
+    message: 'success'
+  })
+})
+// 修改、编辑隐患信息
+/**
+ * @api {post} /api/point/editYinhuanDetail  修改、编辑隐患信息
+ * @apiDescription  修改、编辑隐患信息
+ * @apiName editYinhuanDetail
+ * @apiGroup Point
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+
+ * @apiParam {string} name 名称
+ * @apiParam {string} address 地址
+ * @apiParam {string} updateAt 修改时间
+
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} data
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "data": [
+ *   {
+ *     "isDeleted": 0,
+ *     "_id": "5f27acea5070a33860578646",
+ *     "user_id": "5f2290e7cf2a793e64e74201",
+ *     "name": "监控1",
+ *     "type": "jk",
+ *     "lng": 115.866398,
+ *     "lat": 33.95615,
+ *     "alt": -589.9,
+ *     "viewdata": "{\"y\":25.532849,\"x\":115.323881,\"z\":1217493.68,\"heading\":359.2,\"pitch\":-53,\"roll\":0}",
+ *     "remark": "监控",
+ *     "createdAt": "2020-08-03T06:21:30.748Z",
+ *     "__v": 0
+ *    }
+ *  ],
+ *  "message": "success"
+ * }
+ * @apiSampleRequest http://localhost:3000/api/point/editYinhuanDetail
+ * @apiVersion 0.1.0
+ */
+router.post('/editYinhuanDetail', auth, async (req, res) => {
+  let data = await Yinhuans.where({
+    _id: req.body._id, isDeleted: 0
+  }).updateOne({
+    name: req.body.name,
+    address: req.body.address,
+    updateAt: req.query.t,
+  })
+  res.send({
+    code: 200,
+    data: data,
+    message: 'success'
+  })
+})
+// 修改、编辑监控信息
+/**
+ * @api {post} /api/point/editJiankongDetail  修改、编辑涵洞信息
+ * @apiDescription  修改、编辑涵洞信息
+ * @apiName editHandongDetail
+ * @apiGroup Point
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+
+ * @apiParam {string} name 名称
+ * @apiParam {string} hdurl 地址
+ * @apiParam {string} updateAt 修改时间
+
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} data
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "data": [
+ *   {
+ *     "isDeleted": 0,
+ *     "_id": "5f27acea5070a33860578646",
+ *     "user_id": "5f2290e7cf2a793e64e74201",
+ *     "name": "监控1",
+ *     "type": "jk",
+ *     "lng": 115.866398,
+ *     "lat": 33.95615,
+ *     "alt": -589.9,
+ *     "viewdata": "{\"y\":25.532849,\"x\":115.323881,\"z\":1217493.68,\"heading\":359.2,\"pitch\":-53,\"roll\":0}",
+ *     "remark": "监控",
+ *     "createdAt": "2020-08-03T06:21:30.748Z",
+ *     "__v": 0
+ *    }
+ *  ],
+ *  "message": "success"
+ * }
+ * @apiSampleRequest http://localhost:3000/api/point/editJiankongDetail
+ * @apiVersion 0.1.0
+ */
+router.post('/editJiankongDetail', auth, async (req, res) => {
+  let data = await Jiankongs.where({
+    _id: req.body._id, isDeleted: 0
+  }).updateOne({
+    name: req.body.name,
+    hdurl: req.body.hdurl,
+    updateAt: req.query.t,
+  })
+  res.send({
+    code: 200,
+    data: data,
+    message: 'success'
+  })
+})
 module.exports = router;
