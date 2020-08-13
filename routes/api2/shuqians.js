@@ -1,5 +1,6 @@
 const ShuQians = require('../../models/point/shuqians')
-const auth = require("../../middleware/auth")
+const query = require("../../config/controller");
+const auth = require("../../middleware/auth2")
 let express = require('express');
 let router = express.Router();
 //  新增书签
@@ -104,10 +105,11 @@ router.post('/addShuqian', auth, async (req, res) => {
  * @apiVersion 0.1.0
  */
 router.get('/getShuqianList', auth, async (req, res) => {
-  let shuqian = await ShuQians.find({user_id: req.user._id, isDeleted: 0})
+  let sql = "select * from shuqian";
+  let list = await query(sql);
   res.send({
     code: 200,
-    data: shuqian,
+    data: list,
     message: 'success'
   })
 })

@@ -260,30 +260,16 @@ router.post('/signup', async (req, res) => {
  */
 //  修改用户信息
 router.post('/changeUserinfo', auth, async (req, res) => {
-  console.log(req.user._id);
-  const result = await Users.where({
-    _id: req.user._id
-  }).updateOne({
-    nikename: req.body.nikename,
-    avatar: req.body.avatar,
-    introduction: req.body.introduction,
-    roles: req.body.roles,
-  })
-  if (result.nModified === 1) {
-    res.send({
-        code: 200,
-        data: {},
-        message: '修改成功'
-      }
-    )
-  } else {
-    res.send({
-        code: 401,
-        data: result,
-        message: '修改失败'
-      }
-    )
-  }
+  let values = [req.body.nikename, req.body.introduction, req.body.roles, req.user.id];
+  let sql = "update user set nikename=?,introduction=?,roles=?, where id=?;"
+  let user = await query(sql, values);
+  console.log(user);
+  res.send({
+      code: 200,
+      data: user,
+      message: '修改成功'
+    }
+  )
 })
 // javaAPI
 router.post('/javaAPI', async (req, res) => {
