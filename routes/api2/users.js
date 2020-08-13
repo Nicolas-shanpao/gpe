@@ -234,7 +234,7 @@ router.post('/signup', async (req, res) => {
 /**
  * @api {post} /api2/user/changeUserinfo 修改用户信息
  * @apiDescription 修改用户信息
- * @apiName changeUserinfo
+ * @apiName changeUserinfo 2
  * @apiGroup User
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
 
