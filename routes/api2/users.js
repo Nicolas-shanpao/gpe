@@ -6,7 +6,7 @@ const auth = require("../../middleware/auth2")
 let express = require('express');
 let router = express.Router();
 /**
- * @api {post} /api/user/login 用户登录
+ * @api {post} /api2/user/login 用户登录
  * @apiDescription 用户登录
  * @apiName login
  * @apiGroup User
@@ -34,7 +34,7 @@ let router = express.Router();
  *   data: '用户名或密码错误！',
  *   message: 'error'
  * }
- * @apiSampleRequest http://localhost:3000/api/user/login
+ * @apiSampleRequest http://localhost:3000/api2/user/login
  * @apiVersion 0.1.0
  */
 // 登录
@@ -79,7 +79,7 @@ router.post('/login', async (req, res) => {
 })
 
 /**
- * @api {get} /api/user/userList 获取用户列表
+ * @api {get} /api2/user/userList 获取用户列表
  * @apiDescription 获取用户列表
  * @apiName userList
  * @apiGroup User
@@ -121,7 +121,7 @@ router.post('/login', async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/userList
+ * @apiSampleRequest http://localhost:3000/api2/user/userList
  * @apiVersion 0.1.0
  */
 //  获取用户列表
@@ -136,7 +136,7 @@ router.get('/userList', auth, async (req, res) => {
 })
 
 /**
- * @api {get} /api/user/getUserinfo 获取用户信息
+ * @api {get} /api2/user/getUserinfo 获取用户信息
  * @apiDescription 获取用户信息
  * @apiName getUserinfo
  * @apiGroup User
@@ -163,7 +163,7 @@ router.get('/userList', auth, async (req, res) => {
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/getUserinfo
+ * @apiSampleRequest http://localhost:3000/api2/user/getUserinfo
  * @apiVersion 0.1.0
  */
 // 获取用户信息
@@ -232,7 +232,7 @@ router.post('/signup', async (req, res) => {
 
 })
 /**
- * @api {post} /api/user/changeUserinfo 修改用户信息
+ * @api {post} /api2/user/changeUserinfo 修改用户信息
  * @apiDescription 修改用户信息
  * @apiName changeUserinfo
  * @apiGroup User
@@ -255,7 +255,7 @@ router.post('/signup', async (req, res) => {
  *  },
  *  "message": "注册成功！"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/changeUserinfo
+ * @apiSampleRequest http://localhost:3000/api2/user/changeUserinfo
  * @apiVersion 0.1.0
  */
 //  修改用户信息
