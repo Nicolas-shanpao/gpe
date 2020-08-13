@@ -19,3 +19,4 @@ yarn-error.log*
 *.sw*
 /video/123123123.mp4
 /*.log
+/public/apidoc/
