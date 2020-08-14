@@ -46,26 +46,19 @@ let router = express.Router();
  * @apiVersion 0.1.0
  */
 router.post('/addShuqian', auth, async (req, res) => {
-  let newShuQian = {
-    user_id: req.user._id,
-    name: req.body.name,
-    data: req.body.data,// 视角数据
-    updateAt: req.query.t,
-  };
-  ShuQians.create(newShuQian, async (err, val) => {
-    if (err) {
-      res.send({
-        code: 401,
-        data: err,
-        message: 'error'
-      })
-    } else {
-      res.send({
-        code: 200,
-        data: val,
-        message: 'success'
-      })
-    }
+  let values = [
+    req.user.id,     //account
+    req.body.name,    //nikename
+    req.body.data,    //nikename
+    new Date().getTime(),
+    new Date().getTime()
+  ];
+  let sql = "insert into shuqian set user_id=?,name=?,data=?,createdAt=?,updateAt=?;";
+  let shuqian = await query(sql, values);
+  res.send({
+    code: 200,
+    data: shuqian,
+    message: 'success'
   })
 })
 //  获取用户所有书签视角

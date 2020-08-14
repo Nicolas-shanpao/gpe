@@ -215,7 +215,7 @@ router.post('/signup', async (req, res) => {
       new Date().getTime(),
       new Date().getTime()
     ];
-    let sql2 = "insert into user set account=?,nikename=?,roles=?,introduction=?,avatar=?,password=?,createAt=?,updateAt=?;";
+    let sql2 = "insert into user set account=?,nikename=?,roles=?,introduction=?,avatar=?,password=?,createdAt=?,updateAt=?;";
     let user2 = await query(sql2, values2);
     res.send({
       code: 200,
