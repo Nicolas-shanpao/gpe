@@ -10,7 +10,7 @@ let router = express.Router();
 const f = require("../../middleware/function")
 //  新增点位
 /**
- * @api {post} /api/point/addPoint 新增点位
+ * @api {post} /api2/point/addPoint 新增点位
  * @apiDescription 新增点位
  * @apiName addPoint
  * @apiGroup Point
@@ -47,8 +47,8 @@ const f = require("../../middleware/function")
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/addPoint
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/addPoint
+ * @apiVersion 2.0.0
  */
 router.post('/addPoint', auth, async (req, res) => {
   let newPoint = {
@@ -163,7 +163,7 @@ router.post('/addPoint', auth, async (req, res) => {
 })
 //  获取用户所有点位列表
 /**
- * @api {get} /api/point/getPointList 获取用户点位列表
+ * @api {get} /api2/point/getPointList 获取用户点位列表
  * @apiDescription 获取用户点位列表
  * @apiName getPointList
  * @apiGroup Point
@@ -194,8 +194,8 @@ router.post('/addPoint', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/getPointList
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/getPointList
+ * @apiVersion 2.0.0
  */
 router.get('/getPointList', auth, async (req, res) => {
   let ql = await Qiaoliangs.find({user_id: req.user._id, isDeleted: 0})
@@ -212,7 +212,7 @@ router.get('/getPointList', auth, async (req, res) => {
 })
 //  根据类型获取用户点位列表
 /**
- * @api {get} /api/point/getPointListByType  根据类型获取用户点位列表
+ * @api {get} /api2/point/getPointListByType  根据类型获取用户点位列表
  * @apiDescription  根据类型获取用户点位列表
  * @apiName getPointListByType
  * @apiGroup Point
@@ -245,8 +245,8 @@ router.get('/getPointList', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/getPointListByType
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/getPointListByType
+ * @apiVersion 2.0.0
  */
 router.get('/getPointListByType', auth, async (req, res) => {
   let type = req.query.type
@@ -272,7 +272,7 @@ router.get('/getPointListByType', auth, async (req, res) => {
 })
 // 修改、编辑点位基本信息
 /**
- * @api {post} /api/point/editPointBasemsg  修改、编辑点位基本信息
+ * @api {post} /api2/point/editPointBasemsg  修改、编辑点位基本信息
  * @apiDescription  修改、编辑点位基本信息
  * @apiName editPointBasemsg
  * @apiGroup Point
@@ -313,8 +313,8 @@ router.get('/getPointListByType', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editPointBasemsg
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editPointBasemsg
+ * @apiVersion 2.0.0
  */
 router.post('/editPointBasemsg', auth, async (req, res) => {
   let type = req.body.type
@@ -406,7 +406,7 @@ router.post('/editPointBasemsg', auth, async (req, res) => {
 })
 // 编辑桥梁信息
 /**
- * @api {post} /api/point/editQiaoliangDetail  编辑桥梁信息
+ * @api {post} /api2/point/editQiaoliangDetail  编辑桥梁信息
  * @apiDescription  编辑桥梁信息
  * @apiName editQiaoliangDetail
  * @apiGroup Point
@@ -450,8 +450,8 @@ router.post('/editPointBasemsg', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editQiaoliangDetail
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editQiaoliangDetail
+ * @apiVersion 2.0.0
  */
 router.post('/editQiaoliangDetail', auth, async (req, res) => {
   let data = await Qiaoliangs.where({
@@ -478,7 +478,7 @@ router.post('/editQiaoliangDetail', auth, async (req, res) => {
 })
 // 修改、编辑隧道信息
 /**
- * @api {post} /api/point/editSuidaoDetail  修改、编辑隧道信息
+ * @api {post} /api2/point/editSuidaoDetail  修改、编辑隧道信息
  * @apiDescription  修改、编辑隧道信息
  * @apiName editSuidaoDetail
  * @apiGroup Point
@@ -523,8 +523,8 @@ router.post('/editQiaoliangDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editSuidaoDetail
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editSuidaoDetail
+ * @apiVersion 2.0.0
  */
 router.post('/editSuidaoDetail', auth, async (req, res) => {
   let data = await Suidaos.where({
@@ -552,7 +552,7 @@ router.post('/editSuidaoDetail', auth, async (req, res) => {
 })
 // 修改、编辑涵洞信息
 /**
- * @api {post} /api/point/editHandongDetail  修改、编辑涵洞信息
+ * @api {post} /api2/point/editHandongDetail  修改、编辑涵洞信息
  * @apiDescription  修改、编辑涵洞信息
  * @apiName editHandongDetail
  * @apiGroup Point
@@ -597,8 +597,8 @@ router.post('/editSuidaoDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editHandongDetail
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editHandongDetail
+ * @apiVersion 2.0.0
  */
 router.post('/editHandongDetail', auth, async (req, res) => {
   let data = await Handongs.where({
@@ -626,7 +626,7 @@ router.post('/editHandongDetail', auth, async (req, res) => {
 })
 // 修改、编辑风险信息
 /**
- * @api {post} /api/point/editFengxianDetail  修改、编辑风险信息
+ * @api {post} /api2/point/editFengxianDetail  修改、编辑风险信息
  * @apiDescription  修改、编辑风险信息
  * @apiName editFengxianDetail
  * @apiGroup Point
@@ -661,8 +661,8 @@ router.post('/editHandongDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editFengxianDetail
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editFengxianDetail
+ * @apiVersion 2.0.0
  */
 router.post('/editFengxianDetail', auth, async (req, res) => {
   let data = await Fengxians.where({
@@ -680,7 +680,7 @@ router.post('/editFengxianDetail', auth, async (req, res) => {
 })
 // 修改、编辑隐患信息
 /**
- * @api {post} /api/point/editYinhuanDetail  修改、编辑隐患信息
+ * @api {post} /api2/point/editYinhuanDetail  修改、编辑隐患信息
  * @apiDescription  修改、编辑隐患信息
  * @apiName editYinhuanDetail
  * @apiGroup Point
@@ -715,8 +715,8 @@ router.post('/editFengxianDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editYinhuanDetail
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editYinhuanDetail
+ * @apiVersion 2.0.0
  */
 router.post('/editYinhuanDetail', auth, async (req, res) => {
   let data = await Yinhuans.where({
@@ -734,7 +734,7 @@ router.post('/editYinhuanDetail', auth, async (req, res) => {
 })
 // 修改、编辑监控信息
 /**
- * @api {post} /api/point/editJiankongDetail  修改、编辑监控信息
+ * @api {post} /api2/point/editJiankongDetail  修改、编辑监控信息
  * @apiDescription  修改、编辑监控信息
  * @apiName editJiankongDetail
  * @apiGroup Point
@@ -769,8 +769,8 @@ router.post('/editYinhuanDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editJiankongDetail
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/point/editJiankongDetail
+ * @apiVersion 2.0.0
  */
 router.post('/editJiankongDetail', auth, async (req, res) => {
   let data = await Jiankongs.where({

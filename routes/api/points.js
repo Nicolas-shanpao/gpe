@@ -48,7 +48,7 @@ const f = require("../../middleware/function")
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/addPoint
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/addPoint', auth, async (req, res) => {
   let newPoint = {
@@ -195,7 +195,7 @@ router.post('/addPoint', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/getPointList
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.get('/getPointList', auth, async (req, res) => {
   let ql = await Qiaoliangs.find({user_id: req.user._id, isDeleted: 0})
@@ -246,7 +246,7 @@ router.get('/getPointList', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/getPointListByType
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.get('/getPointListByType', auth, async (req, res) => {
   let type = req.query.type
@@ -314,7 +314,7 @@ router.get('/getPointListByType', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editPointBasemsg
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editPointBasemsg', auth, async (req, res) => {
   let type = req.body.type
@@ -451,7 +451,7 @@ router.post('/editPointBasemsg', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editQiaoliangDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editQiaoliangDetail', auth, async (req, res) => {
   let data = await Qiaoliangs.where({
@@ -524,7 +524,7 @@ router.post('/editQiaoliangDetail', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editSuidaoDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editSuidaoDetail', auth, async (req, res) => {
   let data = await Suidaos.where({
@@ -598,7 +598,7 @@ router.post('/editSuidaoDetail', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editHandongDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editHandongDetail', auth, async (req, res) => {
   let data = await Handongs.where({
@@ -662,7 +662,7 @@ router.post('/editHandongDetail', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editFengxianDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editFengxianDetail', auth, async (req, res) => {
   let data = await Fengxians.where({
@@ -716,7 +716,7 @@ router.post('/editFengxianDetail', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editYinhuanDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editYinhuanDetail', auth, async (req, res) => {
   let data = await Yinhuans.where({
@@ -770,7 +770,7 @@ router.post('/editYinhuanDetail', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/point/editJiankongDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editJiankongDetail', auth, async (req, res) => {
   let data = await Jiankongs.where({

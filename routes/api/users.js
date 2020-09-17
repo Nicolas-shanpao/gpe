@@ -35,7 +35,7 @@ let router = express.Router();
  *   message: 'error'
  * }
  * @apiSampleRequest http://localhost:3000/api/user/login
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 // 登录
 router.post('/login', async (req, res) => {
@@ -120,7 +120,7 @@ router.post('/login', async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/user/userList
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 //  获取用户列表
 router.get('/userList', auth, async (req, res) => {
@@ -166,7 +166,7 @@ router.get('/userList', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/user/getUserinfo
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 // 获取用户信息
 router.get('/getUserinfo', auth, async (req, res) => {
@@ -200,7 +200,7 @@ router.get('/getUserinfo', auth, async (req, res) => {
  *  "message": "注册成功！"
  * }
  * @apiSampleRequest http://localhost:3000/api/user/signup
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 //  用户注册
 router.post('/signup', async (req, res) => {
@@ -269,7 +269,7 @@ router.post('/signup', async (req, res) => {
  *  "message": "注册成功！"
  * }
  * @apiSampleRequest http://localhost:3000/api/user/changeUserinfo
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 //  修改用户信息
 router.post('/changeUserinfo', auth, async (req, res) => {

@@ -7,7 +7,7 @@ let router = express.Router();
  * @api {post} /api/shuqian/addShuqian 新增书签
  * @apiDescription addShuqian
  * @apiName addShuqian
- * @apiGroup Point
+ * @apiGroup Shuqian
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
 
  * @apiParam {string} name 名称
@@ -42,7 +42,7 @@ let router = express.Router();
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/shuqian/addShuqian
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/addShuqian', auth, async (req, res) => {
   let newShuQian = {
@@ -101,7 +101,7 @@ router.post('/addShuqian', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/shuqian/getShuqianList
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.get('/getShuqianList', auth, async (req, res) => {
   let shuqian = await ShuQians.find({user_id: req.user._id, isDeleted: 0})
@@ -116,7 +116,7 @@ router.get('/getShuqianList', auth, async (req, res) => {
  * @api {post} /api/shuqian/editShuqianDetail  修改、编辑书签信息
  * @apiDescription  修改、编辑书签信息
  * @apiName editShuqianDetail
- * @apiGroup Point
+ * @apiGroup Shuqian
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
 
  * @apiParam {string} name 名称
@@ -149,7 +149,7 @@ router.get('/getShuqianList', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api/shuqian/editShuqianDetail
- * @apiVersion 0.1.0
+ * @apiVersion 1.0.0
  */
 router.post('/editShuqianDetail', auth, async (req, res) => {
   let data = await ShuQians.where({

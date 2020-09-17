@@ -35,7 +35,7 @@ let router = express.Router();
  *   message: 'error'
  * }
  * @apiSampleRequest http://localhost:3000/api2/user/login
- * @apiVersion 0.1.0
+ * @apiVersion 2.0.0
  */
 // 登录
 router.post('/login', async (req, res) => {
@@ -122,7 +122,7 @@ router.post('/login', async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api2/user/userList
- * @apiVersion 0.1.0
+ * @apiVersion 2.0.0
  */
 //  获取用户列表
 router.get('/userList', auth, async (req, res) => {
@@ -164,7 +164,7 @@ router.get('/userList', auth, async (req, res) => {
  *  "message": "success"
  * }
  * @apiSampleRequest http://localhost:3000/api2/user/getUserinfo
- * @apiVersion 0.1.0
+ * @apiVersion 2.0.0
  */
 // 获取用户信息
 router.get('/getUserinfo', auth, async (req, res) => {
@@ -177,7 +177,7 @@ router.get('/getUserinfo', auth, async (req, res) => {
 })
 
 /**
- * @api {post} /api/user/signup 用户注册
+ * @api {post} /api2/user/signup 用户注册
  * @apiDescription 用户注册
  * @apiName signup
  * @apiGroup User
@@ -196,8 +196,8 @@ router.get('/getUserinfo', auth, async (req, res) => {
  *  },
  *  "message": "注册成功！"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/signup
- * @apiVersion 0.1.0
+ * @apiSampleRequest http://localhost:3000/api2/user/signup
+ * @apiVersion 2.0.0
  */
 //  用户注册
 router.post('/signup', async (req, res) => {
@@ -234,7 +234,7 @@ router.post('/signup', async (req, res) => {
 /**
  * @api {post} /api2/user/changeUserinfo 修改用户信息
  * @apiDescription 修改用户信息
- * @apiName changeUserinfo 2
+ * @apiName changeUserinfo
  * @apiGroup User
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
 
@@ -256,7 +256,7 @@ router.post('/signup', async (req, res) => {
  *  "message": "注册成功！"
  * }
  * @apiSampleRequest http://localhost:3000/api2/user/changeUserinfo
- * @apiVersion 0.1.0
+ * @apiVersion 2.0.0
  */
 //  修改用户信息
 router.post('/changeUserinfo', auth, async (req, res) => {
