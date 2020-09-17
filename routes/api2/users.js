@@ -10,28 +10,28 @@ let router = express.Router();
  * @apiDescription 用户登录
  * @apiName login
  * @apiGroup User
- * @apiParam {string} account 用户名-g15
+ * @apiParam {string} username 用户名-g15
  * @apiParam {string} password 密码-bim201818
  * @apiSuccess {number} code 具体请看
- * @apiSuccess {json} data
+ * @apiSuccess {json} content
  * @apiSuccess {string} message
  * @apiSuccessExample {json} Success-Response:
  * HTTP/1.1 200 OK
  * {
  *  "code": 200,
- *  "data": {
+ *  "content": {
  *    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjI5MGU3Y2YyYTc5M2U2NGU3NDIwMSIsImlhdCI6MTU5NjQzOTYyMn0.kBDO6X4BAeR_UVSAx3istIUzo0hWGdBSWJGQMN_HCFk"
  *    },
  *  "message": "success"
  * }
  * @apiError {number} code 具体请看.
- * @apiError {string} data 用户名或密码错误.
+ * @apiError {string} content 用户名或密码错误.
  * @apiError {string} message error.
  * @apiErrorExample Error-Response:
  * HTTP/1.1 401 Not Found
  * {
  *   code: 401,
- *   data: '用户名或密码错误！',
+ *   content: '用户名或密码错误！',
  *   message: 'error'
  * }
  * @apiSampleRequest http://localhost:3000/api2/user/login
@@ -39,15 +39,15 @@ let router = express.Router();
  */
 // 登录
 router.post('/login', async (req, res) => {
-  console.log(req.body.account);
-  let values = [req.body.account];
-  let sql = "select id,password,isDeleted from user where account=?;";
+  console.log(req.body.username);
+  let values = [req.body.username];
+  let sql = "select id,password,isDeleted from user where username=?;";
   let user = await query(sql, values);
   console.log(!user);
   if (user.length === 0) {
     return res.send({
       code: 401,
-      data: '用户名不存在！',
+      content: '用户名不存在！',
       message: 'error'
     })
   }
@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
   if (!isPasswordValid) {
     return res.send({
       code: 401,
-      data: '用户名或密码错误！',
+      content: '用户名或密码错误！',
       message: 'error'
     })
   }
@@ -73,7 +73,7 @@ router.post('/login', async (req, res) => {
   // 生成token
   res.send({
     code: 200,
-    data: {token},
+    content: {token},
     message: 'success'
   })
 })
@@ -85,20 +85,20 @@ router.post('/login', async (req, res) => {
  * @apiGroup User
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
  * @apiSuccess {number} code 具体请看
- * @apiSuccess {json} data
+ * @apiSuccess {json} content
  * @apiSuccess {string} message
  * @apiSuccessExample {json} Success-Response:
  * HTTP/1.1 200 OK
  *  {
  *  "code": 200,
- *  "data": [
+ *  "content": [
  *      {
  *          "userinfo": [
  *              "admin"
  *          ],
  *          "isDeleted": 0,
  *          "_id": "5f2290e7cf2a793e64e74201",
- *          "account": "g15",
+ *          "username": "g15",
  *          "introduction": "这个人很懒，啥也没留......",
  *          "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
  *          "nikename": "g15",
@@ -111,7 +111,7 @@ router.post('/login', async (req, res) => {
  *          ],
  *          "isDeleted": 0,
  *          "_id": "5f22910ccf2a793e64e74202",
- *          "account": "g360",
+ *          "username": "g360",
  *          "introduction": "这个人很懒，啥也没留......",
  *          "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
  *          "nikename": "g360",
@@ -126,11 +126,11 @@ router.post('/login', async (req, res) => {
  */
 //  获取用户列表
 router.get('/userList', auth, async (req, res) => {
-  let sql = "select id,account,roles,avatar,nikename,introduction,isDeleted from user";
+  let sql = "select id,username,roles,avatar,nikename,introduction,isDeleted from user";
   let user = await query(sql);
   res.send({
     code: 200,
-    data: user,
+    content: user,
     message: 'success'
   })
 })
@@ -142,19 +142,19 @@ router.get('/userList', auth, async (req, res) => {
  * @apiGroup User
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
  * @apiSuccess {number} code 具体请看
- * @apiSuccess {json} data
+ * @apiSuccess {json} content
  * @apiSuccess {string} message
  * @apiSuccessExample {json} Success-Response:
  * HTTP/1.1 200 OK
  *  {
  *  "code": 200,
- *  "data": {
+ *  "content": {
  *      "roles": [
  *          "admin"
  *      ],
  *      "isDeleted": 0,
  *      "_id": "5f22910ccf2a793e64e74202",
- *      "account": "g15",
+ *      "username": "g15",
  *      "introduction": "这个人很懒，啥也没留......",
  *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
  *      "nikename": "g15",
@@ -170,7 +170,7 @@ router.get('/userList', auth, async (req, res) => {
 router.get('/getUserinfo', auth, async (req, res) => {
   res.send({
       code: 200,
-      data: req.user,
+      content: req.user,
       message: 'success'
     }
   )
@@ -181,18 +181,18 @@ router.get('/getUserinfo', auth, async (req, res) => {
  * @apiDescription 用户注册
  * @apiName signup
  * @apiGroup User
- * @apiParam {string} account 用户名
+ * @apiParam {string} username 用户名
  * @apiParam {string} nikename 昵称
  * @apiParam {string} password 密码
  * @apiSuccess {number} code 具体请看
- * @apiSuccess {json} data
+ * @apiSuccess {json} content
  * @apiSuccess {string} message
  * @apiSuccessExample {json} Success-Response:
  * HTTP/1.1 200 OK
  *  {
  *  "code": 200,
- *  "data": {
- *    "account": "lzz"
+ *  "content": {
+ *    "username": "lzz"
  *  },
  *  "message": "注册成功！"
  * }
@@ -201,12 +201,12 @@ router.get('/getUserinfo', auth, async (req, res) => {
  */
 //  用户注册
 router.post('/signup', async (req, res) => {
-  let values1 = [req.body.account];
-  let sql1 = "select id from user where account=?;";
+  let values1 = [req.body.username];
+  let sql1 = "select id from user where username=?;";
   let user1 = await query(sql1, values1);
   if (user1.length === 0) {
     let values2 = [
-      req.body.account,     //account
+      req.body.username,     //username
       req.body.nikename,    //nikename
       "['admin']",            //roles
       '',                   //introduction
@@ -215,17 +215,17 @@ router.post('/signup', async (req, res) => {
       new Date().getTime(),
       new Date().getTime()
     ];
-    let sql2 = "insert into user set account=?,nikename=?,roles=?,introduction=?,avatar=?,password=?,createdAt=?,updateAt=?;";
+    let sql2 = "insert into user set username=?,nikename=?,roles=?,introduction=?,avatar=?,password=?,createdAt=?,updateAt=?;";
     let user2 = await query(sql2, values2);
     res.send({
       code: 200,
-      data: user2,
+      content: user2,
       message: 'error'
     })
   } else {
     res.send({
       code: 200,
-      data: '用户名已存在',
+      content: '用户名已存在',
       message: 'error'
     })
   }
@@ -244,14 +244,14 @@ router.post('/signup', async (req, res) => {
  * @apiParam {string} roles 权限
 
  * @apiSuccess {number} code 具体请看
- * @apiSuccess {json} data
+ * @apiSuccess {json} content
  * @apiSuccess {string} message
  * @apiSuccessExample {json} Success-Response:
  * HTTP/1.1 200 OK
  *  {
  *  "code": 200,
- *  "data": {
- *    "account": "lzz"
+ *  "content": {
+ *    "username": "lzz"
  *  },
  *  "message": "注册成功！"
  * }
@@ -266,7 +266,7 @@ router.post('/changeUserinfo', auth, async (req, res) => {
   console.log(user);
   res.send({
       code: 200,
-      data: user,
+      content: user,
       message: '修改成功'
     }
   )
@@ -279,10 +279,10 @@ router.post('/javaAPI', async (req, res) => {
     // console.log('statusCode:', response && response.statusCode); // 返回请求的状态码
     // console.log('body:', body); // 返回回来的数据
     console.log(JSON.parse(body));
-    let data = JSON.parse(body)
+    let content = JSON.parse(body)
     res.send({
       code: 200,
-      data: [data.content],
+      content: [content.content],
       message: 'success'
     })
   })

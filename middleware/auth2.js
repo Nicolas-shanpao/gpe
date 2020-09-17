@@ -16,7 +16,7 @@ var auth = async (req, res, next) => {
         // 如果验证通过，在req中写入解密结果
         const {id} = decoded
         let values = [id];
-        let sql = "select id,account,roles,avatar,nikename,introduction from user where id=?;";
+        let sql = "select id,username,roles,avatar,nikename,introduction from user where id=?;";
         let user = await query(sql, values);
         req.user = user[0]
         next(); //继续下一步路由
