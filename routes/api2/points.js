@@ -245,7 +245,7 @@ router.get('/getPointList', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/getPointListByType
+ * @apiSampleRequest /api2/point/getPointListByType
  * @apiVersion 2.0.0
  */
 router.get('/getPointListByType', auth, async (req, res) => {

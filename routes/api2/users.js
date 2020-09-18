@@ -10,8 +10,8 @@ let router = express.Router();
  * @apiDescription 用户登录
  * @apiName login
  * @apiGroup User
- * @apiParam {string} username 用户名-g15
- * @apiParam {string} password 密码-bim201818
+ * @apiParam {string} username="g15" <code>必填</code>用户名-g15
+ * @apiParam {string} password="bim201818" <code>必填</code>密码-bim201818
  * @apiSuccess {number} code 具体请看
  * @apiSuccess {json} content
  * @apiSuccess {string} message
@@ -40,6 +40,13 @@ let router = express.Router();
 // 登录
 router.post('/login', async (req, res) => {
   console.log(req.body.username);
+  if(req.body.username===''||req.body.password===''){
+    return res.send({
+      code: 401,
+      content: '用户名或密码不能为空！',
+      message: 'error'
+    })
+  }
   let values = [req.body.username];
   let sql = "select id,password,isDeleted from user where username=?;";
   let user = await query(sql, values);
