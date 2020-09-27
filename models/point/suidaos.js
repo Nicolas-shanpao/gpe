@@ -1,6 +1,6 @@
 //  隧道
 const mongoose = require("mongoose")
-var db = require("../../config/db")
+var db = require("@/config/db")
 // 用户表
 var SchemaSuidao = new mongoose.Schema({
   // 公共属性

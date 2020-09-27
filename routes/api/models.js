@@ -1,5 +1,5 @@
-const Models = require('../../models/models')
-const auth = require("../../middleware/auth")
+const Models = require('@/models/models')
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
 //  新增页面

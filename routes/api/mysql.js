@@ -1,7 +1,7 @@
-const auth = require("../../middleware/auth")
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
-const query = require("../../config/controller");
+const query = require("@/config/controller");
 
 router.post('/userList', auth, async (req, res) => {
   let values = [req.body.id];

@@ -1,8 +1,8 @@
-const Users = require('../../models/Users')
+const Users = require('@/models/Users')
 const request = require('request')
 const jwt = require('jsonwebtoken')
-const SECRET = require("../../config/development")
-const auth = require("../../middleware/auth")
+const SECRET = require("@/config/development")
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
 /**
@@ -34,7 +34,7 @@ let router = express.Router();
  *   data: '用户名或密码错误！',
  *   message: 'error'
  * }
- * @apiSampleRequest http://localhost:3000/api/user/login
+ * @apiSampleRequest /api/user/login
  * @apiVersion 1.0.0
  */
 // 登录
@@ -119,7 +119,7 @@ router.post('/login', async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/userList
+ * @apiSampleRequest /api/user/userList
  * @apiVersion 1.0.0
  */
 //  获取用户列表
@@ -165,7 +165,7 @@ router.get('/userList', auth, async (req, res) => {
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/getUserinfo
+ * @apiSampleRequest /api/user/getUserinfo
  * @apiVersion 1.0.0
  */
 // 获取用户信息
@@ -199,7 +199,7 @@ router.get('/getUserinfo', auth, async (req, res) => {
  *  },
  *  "message": "注册成功！"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/signup
+ * @apiSampleRequest /api/user/signup
  * @apiVersion 1.0.0
  */
 //  用户注册
@@ -268,7 +268,7 @@ router.post('/signup', async (req, res) => {
  *  },
  *  "message": "注册成功！"
  * }
- * @apiSampleRequest http://localhost:3000/api/user/changeUserinfo
+ * @apiSampleRequest /api/user/changeUserinfo
  * @apiVersion 1.0.0
  */
 //  修改用户信息

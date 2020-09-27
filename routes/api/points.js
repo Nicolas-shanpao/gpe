@@ -1,13 +1,13 @@
-const Qiaoliangs = require('../../models/point/qiaoliangs')
-const Handongs = require('../../models/point/handongs')
-const Suidaos = require('../../models/point/suidaos')
-const Fengxians = require('../../models/point/fengxians')
-const Yinhuans = require('../../models/point/yinhuans')
-const Jiankongs = require('../../models/point/jiankongs')
-const auth = require("../../middleware/auth")
+const Qiaoliangs = require('@/models/point/qiaoliangs')
+const Handongs = require('@/models/point/handongs')
+const Suidaos = require('@/models/point/suidaos')
+const Fengxians = require('@/models/point/fengxians')
+const Yinhuans = require('@/models/point/yinhuans')
+const Jiankongs = require('@/models/point/jiankongs')
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
-const f = require("../../middleware/function")
+const f = require("@/middleware/function")
 //  新增点位
 /**
  * @api {post} /api/point/addPoint 新增点位
@@ -47,7 +47,7 @@ const f = require("../../middleware/function")
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/addPoint
+ * @apiSampleRequest /api/point/addPoint
  * @apiVersion 1.0.0
  */
 router.post('/addPoint', auth, async (req, res) => {
@@ -194,7 +194,7 @@ router.post('/addPoint', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/getPointList
+ * @apiSampleRequest /api/point/getPointList
  * @apiVersion 1.0.0
  */
 router.get('/getPointList', auth, async (req, res) => {
@@ -245,7 +245,7 @@ router.get('/getPointList', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/getPointListByType
+ * @apiSampleRequest /api/point/getPointListByType
  * @apiVersion 1.0.0
  */
 router.get('/getPointListByType', auth, async (req, res) => {
@@ -313,7 +313,7 @@ router.get('/getPointListByType', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editPointBasemsg
+ * @apiSampleRequest /api/point/editPointBasemsg
  * @apiVersion 1.0.0
  */
 router.post('/editPointBasemsg', auth, async (req, res) => {
@@ -450,7 +450,7 @@ router.post('/editPointBasemsg', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editQiaoliangDetail
+ * @apiSampleRequest /api/point/editQiaoliangDetail
  * @apiVersion 1.0.0
  */
 router.post('/editQiaoliangDetail', auth, async (req, res) => {
@@ -523,7 +523,7 @@ router.post('/editQiaoliangDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editSuidaoDetail
+ * @apiSampleRequest /api/point/editSuidaoDetail
  * @apiVersion 1.0.0
  */
 router.post('/editSuidaoDetail', auth, async (req, res) => {
@@ -597,7 +597,7 @@ router.post('/editSuidaoDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editHandongDetail
+ * @apiSampleRequest /api/point/editHandongDetail
  * @apiVersion 1.0.0
  */
 router.post('/editHandongDetail', auth, async (req, res) => {
@@ -661,7 +661,7 @@ router.post('/editHandongDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editFengxianDetail
+ * @apiSampleRequest /api/point/editFengxianDetail
  * @apiVersion 1.0.0
  */
 router.post('/editFengxianDetail', auth, async (req, res) => {
@@ -715,7 +715,7 @@ router.post('/editFengxianDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editYinhuanDetail
+ * @apiSampleRequest /api/point/editYinhuanDetail
  * @apiVersion 1.0.0
  */
 router.post('/editYinhuanDetail', auth, async (req, res) => {
@@ -769,7 +769,7 @@ router.post('/editYinhuanDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api/point/editJiankongDetail
+ * @apiSampleRequest /api/point/editJiankongDetail
  * @apiVersion 1.0.0
  */
 router.post('/editJiankongDetail', auth, async (req, res) => {

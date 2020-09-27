@@ -1,6 +1,6 @@
 //  桥梁
 const mongoose = require("mongoose")
-var db = require("../../config/db")
+var db = require("@/config/db")
 // 用户表
 var SchemaQiaoliang = new mongoose.Schema({
   // 公共属性

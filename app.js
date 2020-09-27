@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('module-alias/register')
+var baseSet = require('./baseSet')
 // 路由
 // var usersRouter = require('./routes/api/users');
 // var pointsRouter = require('./routes/api/points');
@@ -14,11 +16,14 @@ var logger = require('morgan');
 // var mysqlsRouter = require('./routes/api/mysql');
 
 var users2Router = require('./routes/api2/users');
+var roles2Router = require('./routes/api2/roles');
+var file2Router = require('./routes/api2/file/file');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.set('@', path.join(__dirname, ''));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
@@ -26,7 +31,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'uploads')));
 app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
@@ -46,6 +50,8 @@ app.all('*', function (req, res, next) {
 // app.use('/api/file', filesRouter);
 // app.use('/api/mysql', mysqlsRouter);
 app.use('/api2/user', users2Router);
+app.use('/api2/roles', roles2Router);
+app.use('/api2/file', file2Router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

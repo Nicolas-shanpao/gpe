@@ -1,15 +1,15 @@
-const query = require("../../config/controller");
+const query = require("@/config/controller");
 const request = require('request')
 const jwt = require('jsonwebtoken')
-const SECRET = require("../../config/development")
-const auth = require("../../middleware/auth2")
+const SECRET = require("@/config/development")
+const auth = require("@/middleware/auth2")
 let express = require('express');
 let router = express.Router();
 /**
  * @api {post} /api2/user/login 用户登录
  * @apiDescription 用户登录
  * @apiName login
- * @apiGroup User
+ * @apiGroup 用户
  * @apiParam {string} username="g15" <code>必填</code>用户名-g15
  * @apiParam {string} password="bim201818" <code>必填</code>密码-bim201818
  * @apiSuccess {number} code 具体请看
@@ -34,13 +34,13 @@ let router = express.Router();
  *   content: '用户名或密码错误！',
  *   message: 'error'
  * }
- * @apiSampleRequest http://localhost:3000/api2/user/login
+ * @apiSampleRequest /api2/user/login
  * @apiVersion 2.0.0
  */
 // 登录
 router.post('/login', async (req, res) => {
   console.log(req.body.username);
-  if(req.body.username===''||req.body.password===''){
+  if (req.body.username === '' || req.body.password === '') {
     return res.send({
       code: 401,
       content: '用户名或密码不能为空！',
@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
  * @api {get} /api2/user/userList 获取用户列表
  * @apiDescription 获取用户列表
  * @apiName userList
- * @apiGroup User
+ * @apiGroup 用户
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
  * @apiSuccess {number} code 具体请看
  * @apiSuccess {json} content
@@ -128,7 +128,7 @@ router.post('/login', async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/user/userList
+ * @apiSampleRequest /api2/user/userList
  * @apiVersion 2.0.0
  */
 //  获取用户列表
@@ -146,7 +146,7 @@ router.get('/userList', auth, async (req, res) => {
  * @api {get} /api2/user/getUserinfo 获取用户信息
  * @apiDescription 获取用户信息
  * @apiName getUserinfo
- * @apiGroup User
+ * @apiGroup 用户
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
  * @apiSuccess {number} code 具体请看
  * @apiSuccess {json} content
@@ -170,7 +170,7 @@ router.get('/userList', auth, async (req, res) => {
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/user/getUserinfo
+ * @apiSampleRequest /api2/user/getUserinfo
  * @apiVersion 2.0.0
  */
 // 获取用户信息
@@ -187,7 +187,7 @@ router.get('/getUserinfo', auth, async (req, res) => {
  * @api {post} /api2/user/signup 用户注册
  * @apiDescription 用户注册
  * @apiName signup
- * @apiGroup User
+ * @apiGroup 用户
  * @apiParam {string} username 用户名
  * @apiParam {string} nikename 昵称
  * @apiParam {string} password 密码
@@ -203,7 +203,7 @@ router.get('/getUserinfo', auth, async (req, res) => {
  *  },
  *  "message": "注册成功！"
  * }
- * @apiSampleRequest http://localhost:3000/api2/user/signup
+ * @apiSampleRequest /api2/user/signup
  * @apiVersion 2.0.0
  */
 //  用户注册
@@ -213,25 +213,33 @@ router.post('/signup', async (req, res) => {
   let user1 = await query(sql1, values1);
   if (user1.length === 0) {
     let values2 = [
-      req.body.username,     //username
-      req.body.nikename,    //nikename
-      "['admin']",            //roles
-      '',                   //introduction
-      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',//avatar
+      req.body.username,      //username
+      req.body.nikename,      //nikename
+      "editor",                //roles
+      '',                     //introduction
+      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',    //avatar
       require('bcrypt').hashSync(req.body.password, 10),
       new Date().getTime(),
       new Date().getTime()
     ];
     let sql2 = "insert into user set username=?,nikename=?,roles=?,introduction=?,avatar=?,password=?,createdAt=?,updateAt=?;";
     let user2 = await query(sql2, values2);
-    res.send({
-      code: 200,
-      content: user2,
-      message: 'error'
-    })
+    if (user2.affectedRows === 1) {
+      res.send({
+        code: 200,
+        content: '注册成功',
+        message: 'success'
+      })
+    } else {
+      res.send({
+        code: 201,
+        content: '注册失败',
+        message: 'error'
+      })
+    }
   } else {
     res.send({
-      code: 200,
+      code: 201,
       content: '用户名已存在',
       message: 'error'
     })
@@ -242,7 +250,7 @@ router.post('/signup', async (req, res) => {
  * @api {post} /api2/user/changeUserinfo 修改用户信息
  * @apiDescription 修改用户信息
  * @apiName changeUserinfo
- * @apiGroup User
+ * @apiGroup 用户
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
 
  * @apiParam {string} nikename 昵称
@@ -262,7 +270,7 @@ router.post('/signup', async (req, res) => {
  *  },
  *  "message": "注册成功！"
  * }
- * @apiSampleRequest http://localhost:3000/api2/user/changeUserinfo
+ * @apiSampleRequest /api2/user/changeUserinfo
  * @apiVersion 2.0.0
  */
 //  修改用户信息
@@ -274,7 +282,7 @@ router.post('/changeUserinfo', auth, async (req, res) => {
   res.send({
       code: 200,
       content: user,
-      message: '修改成功'
+      message: 'success'
     }
   )
 })
@@ -293,6 +301,139 @@ router.post('/javaAPI', async (req, res) => {
       message: 'success'
     })
   })
+})
+
+/**
+ * @api {get} /api2/user/getUserAddressList 获取用户通讯录
+ * @apiDescription 获取用户通讯录
+ * @apiName getUserAddressList
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/getUserAddressList
+ * @apiVersion 2.0.0
+ */
+// 获取用户通讯录
+router.get('/getUserAddressList', auth, async (req, res) => {
+  let values = [req.body.id];
+  let sql = "update user set nikename=?,introduction=?,roles=?, where id=?;"
+  let user = await query(sql, values);
+  res.send({
+      code: 200,
+      content: req.user,
+      message: 'success'
+    }
+  )
+})
+
+/**
+ * @api {get} /api2/user/getOtherUserInfo 获取其他用户信息
+ * @apiDescription 获取其他用户信息
+ * @apiName getOtherUserInfo
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/getOtherUserInfo
+ * @apiVersion 2.0.0
+ */
+// 获取其他用户信息
+router.get('/getOtherUserInfo', auth, async (req, res) => {
+  let values = [req.query.id];
+  let sql = "select id,username,roles,avatar,nikename,introduction from user where id=?;";
+  let user = await query(sql, values);
+  console.log(user[0])
+  res.send({
+      code: 200,
+      content: user[0],
+      message: 'success'
+    }
+  )
+})
+
+/**
+ * @api {get} /api2/user/getAllUser 获取所有用户
+ * @apiDescription 获取所有用户
+ * @apiName getAllUser
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/getAllUser
+ * @apiVersion 2.0.0
+ */
+// 获取所有用户
+router.get('/getAllUser', auth, async (req, res) => {
+  let sql = "select id,username,roles,avatar,nikename,introduction from user;";
+  let user = await query(sql);
+  console.log('111111111111' + user)
+  res.send({
+      code: 200,
+      content: user,
+      message: 'success'
+    }
+  )
 })
 
 module.exports = router;

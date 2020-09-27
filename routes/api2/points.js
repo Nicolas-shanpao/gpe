@@ -1,13 +1,13 @@
-const Qiaoliangs = require('../../models/point/qiaoliangs')
-const Handongs = require('../../models/point/handongs')
-const Suidaos = require('../../models/point/suidaos')
-const Fengxians = require('../../models/point/fengxians')
-const Yinhuans = require('../../models/point/yinhuans')
-const Jiankongs = require('../../models/point/jiankongs')
-const auth = require("../../middleware/auth")
+const Qiaoliangs = require('@/models/point/qiaoliangs')
+const Handongs = require('@/models/point/handongs')
+const Suidaos = require('@/models/point/suidaos')
+const Fengxians = require('@/models/point/fengxians')
+const Yinhuans = require('@/models/point/yinhuans')
+const Jiankongs = require('@/models/point/jiankongs')
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
-const f = require("../../middleware/function")
+const f = require("@/middleware/function")
 //  新增点位
 /**
  * @api {post} /api2/point/addPoint 新增点位
@@ -47,7 +47,7 @@ const f = require("../../middleware/function")
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/addPoint
+ * @apiSampleRequest /api2/point/addPoint
  * @apiVersion 2.0.0
  */
 router.post('/addPoint', auth, async (req, res) => {
@@ -194,7 +194,7 @@ router.post('/addPoint', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/getPointList
+ * @apiSampleRequest /api2/point/getPointList
  * @apiVersion 2.0.0
  */
 router.get('/getPointList', auth, async (req, res) => {
@@ -313,7 +313,7 @@ router.get('/getPointListByType', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editPointBasemsg
+ * @apiSampleRequest /api2/point/editPointBasemsg
  * @apiVersion 2.0.0
  */
 router.post('/editPointBasemsg', auth, async (req, res) => {
@@ -450,7 +450,7 @@ router.post('/editPointBasemsg', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editQiaoliangDetail
+ * @apiSampleRequest /api2/point/editQiaoliangDetail
  * @apiVersion 2.0.0
  */
 router.post('/editQiaoliangDetail', auth, async (req, res) => {
@@ -523,7 +523,7 @@ router.post('/editQiaoliangDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editSuidaoDetail
+ * @apiSampleRequest /api2/point/editSuidaoDetail
  * @apiVersion 2.0.0
  */
 router.post('/editSuidaoDetail', auth, async (req, res) => {
@@ -597,7 +597,7 @@ router.post('/editSuidaoDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editHandongDetail
+ * @apiSampleRequest /api2/point/editHandongDetail
  * @apiVersion 2.0.0
  */
 router.post('/editHandongDetail', auth, async (req, res) => {
@@ -661,7 +661,7 @@ router.post('/editHandongDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editFengxianDetail
+ * @apiSampleRequest /api2/point/editFengxianDetail
  * @apiVersion 2.0.0
  */
 router.post('/editFengxianDetail', auth, async (req, res) => {
@@ -715,7 +715,7 @@ router.post('/editFengxianDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editYinhuanDetail
+ * @apiSampleRequest /api2/point/editYinhuanDetail
  * @apiVersion 2.0.0
  */
 router.post('/editYinhuanDetail', auth, async (req, res) => {
@@ -769,7 +769,7 @@ router.post('/editYinhuanDetail', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/point/editJiankongDetail
+ * @apiSampleRequest /api2/point/editJiankongDetail
  * @apiVersion 2.0.0
  */
 router.post('/editJiankongDetail', auth, async (req, res) => {

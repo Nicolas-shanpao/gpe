@@ -1,7 +1,7 @@
-const Pages = require('../../models/Pages')
-const Models = require('../../models/models')
-const Shuqians = require('../../models/point/shuqians')
-const auth = require("../../middleware/auth")
+const Pages = require('@/models/Pages')
+const Models = require('@/models/models')
+const Shuqians = require('@/models/point/shuqians')
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
 //  新增页面

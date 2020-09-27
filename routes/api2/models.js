@@ -1,8 +1,8 @@
-const Models = require('../../models/models')
-const auth = require("../../middleware/auth")
+const Models = require('@/models/models')
+const auth = require("@/middleware/auth")
 let express = require('express');
 let router = express.Router();
-const query = require("../../config/controller");
+const query = require("@/config/controller");
 //  新增页面
 router.post('/addModel', auth, async (req, res) => {
   console.log(req.user._id);

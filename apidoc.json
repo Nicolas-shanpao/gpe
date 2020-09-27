@@ -5,5 +5,9 @@
   "title": "接口文档",
   "url" : "http://10.25.106.117:3000",
   "sampleUrl" : "http://10.25.106.117:3000",
-  "url2" : "http://10.25.106.117:3000/apidoc/index.html"
+  "url2" : "http://10.25.106.117:3000/apidoc/index.html",
+  "order": [
+    "用户",
+    "xxx"
+  ]
 }

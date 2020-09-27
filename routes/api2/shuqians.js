@@ -1,6 +1,6 @@
-const ShuQians = require('../../models/point/shuqians')
-const query = require("../../config/controller");
-const auth = require("../../middleware/auth2")
+const ShuQians = require('@/models/point/shuqians')
+const query = require("@/config/controller");
+const auth = require("@/middleware/auth2")
 let express = require('express');
 let router = express.Router();
 //  新增书签
@@ -42,7 +42,7 @@ let router = express.Router();
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/shuqian/addShuqian
+ * @apiSampleRequest /api2/shuqian/addShuqian
  * @apiVersion 2.0.0
  */
 router.post('/addShuqian', auth, async (req, res) => {
@@ -94,7 +94,7 @@ router.post('/addShuqian', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/shuqian/getShuqianList
+ * @apiSampleRequest /api2/shuqian/getShuqianList
  * @apiVersion 2.0.0
  */
 router.get('/getShuqianList', auth, async (req, res) => {
@@ -143,7 +143,7 @@ router.get('/getShuqianList', auth, async (req, res) => {
  *  ],
  *  "message": "success"
  * }
- * @apiSampleRequest http://localhost:3000/api2/shuqian/editShuqianDetail
+ * @apiSampleRequest /api2/shuqian/editShuqianDetail
  * @apiVersion 2.0.0
  */
 router.post('/editShuqianDetail', auth, async (req, res) => {
