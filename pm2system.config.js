@@ -4,7 +4,7 @@
 module.exports = {
   apps: [
     {
-      name: 'gis-platform',//项目名称
+      name: 'gis-platform-express',//项目名称
       cwd: "./",// 当前工作路径
       script: './bin/www',// 实际启动脚本
       error_file: './error.log',    //错误日志文件输出路径
