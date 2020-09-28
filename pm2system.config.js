@@ -1,6 +1,7 @@
 // pm2system.config.js
 // 启动命令
 // pm2 start pm2system.config.js
+// pm2system.config.js
 module.exports = {
   apps: [
     {
@@ -20,8 +21,8 @@ module.exports = {
         "usePolling": true,
       },
       exec_mode: "cluster_mode",                // 应用启动模式，支持fork和cluster模式
-      instances: 2,                             // 应用启动实例个数，仅在cluster模式有效 默认为fork；或者 max
-      // max_memory_restart: 4,                    // 最大内存限制数，超出自动重启
+      instances: "max",                             // 应用启动实例个数，仅在cluster模式有效 默认为fork；或者 max
+      max_memory_restart: 8,                    // 最大内存限制数，超出自动重启
       log_date_format: "YYYY-MM-DD HH:mm:ss",   // 指定日志文件的时间格式
       min_uptime: "60s",                        // 应用运行少于时间被认为是异常启动
       max_restarts: 30,                         // 最大异常重启次数，即小于min_uptime运行时间重启次数；
