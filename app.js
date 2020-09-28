@@ -31,15 +31,15 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.all('*', function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
-//   res.header('Access-Control-Allow-Methods', '*');
-//   res.header('Content-Type', 'application/json;charset=utf-8');
-//   if (req.method == "OPTIONS") res.send(200);/*让options请求快速返回*/
-//   else next();
-// });
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
+  res.header('Access-Control-Allow-Methods', '*');
+  res.header('Content-Type', 'application/json;charset=utf-8');
+  if (req.method == "OPTIONS") res.send(200);/*让options请求快速返回*/
+  else next();
+});
 // 路由配置
 // app.use('/api/user', usersRouter);
 // app.use('/api/point', pointsRouter);
