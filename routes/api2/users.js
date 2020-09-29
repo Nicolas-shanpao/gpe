@@ -40,14 +40,16 @@ let router = express.Router();
  */
 // 登录
 router.post('/login', async (req, res) => {
-  if (req.body.username === '' || req.body.password === '') {
+  let username = Base64.decode(req.body.username)
+  let password = Base64.decode(req.body.password)
+  if (username === '' || password === '') {
     return res.send({
       code: 401,
       content: '用户名或密码不能为空！',
       message: 'error'
     })
   }
-  let values = [Base64.decode(req.body.username)];
+  let values = [username];
   let sql = "select id,password,isDeleted from user where username=?;";
   let user = await query(sql, values);
   console.log(!user);
@@ -62,7 +64,7 @@ router.post('/login', async (req, res) => {
 
   }
   const isPasswordValid = require('bcrypt').compareSync(
-    Base64.decode(req.body.password),
+    password,
     user[0].password
   )
   console.log(isPasswordValid);
@@ -208,17 +210,20 @@ router.get('/getUserinfo', auth, async (req, res) => {
  */
 //  用户注册
 router.post('/signup', async (req, res) => {
-  let values1 = [Base64.decode(req.body.username)];
+  let username = Base64.decode(req.body.username)
+  let password = Base64.decode(req.body.password)
+  let values1 = [username];
   let sql1 = "select id from user where username=?;";
   let user1 = await query(sql1, values1);
+  console.log(username);
   if (user1.length === 0) {
     let values2 = [
-      Base64.decode(req.body.username),      //username
+      username,      //username
       req.body.nikename,      //nikename
       "editor",                //roles
       '',                     //introduction
       'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',    //avatar
-      require('bcrypt').hashSync(Base64.decode(req.body.password), 10),
+      require('bcrypt').hashSync(password, 10),
       new Date().getTime(),
       new Date().getTime()
     ];
