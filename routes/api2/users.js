@@ -208,17 +208,17 @@ router.get('/getUserinfo', auth, async (req, res) => {
  */
 //  用户注册
 router.post('/signup', async (req, res) => {
-  let values1 = [req.body.username];
+  let values1 = [Base64.decode(req.body.username)];
   let sql1 = "select id from user where username=?;";
   let user1 = await query(sql1, values1);
   if (user1.length === 0) {
     let values2 = [
-      req.body.username,      //username
+      Base64.decode(req.body.username),      //username
       req.body.nikename,      //nikename
       "editor",                //roles
       '',                     //introduction
       'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',    //avatar
-      require('bcrypt').hashSync(req.body.password, 10),
+      require('bcrypt').hashSync(Base64.decode(req.body.password), 10),
       new Date().getTime(),
       new Date().getTime()
     ];
