@@ -40,7 +40,6 @@ let router = express.Router();
  */
 // 登录
 router.post('/login', async (req, res) => {
-  console.log(req.body.username);
   if (req.body.username === '' || req.body.password === '') {
     return res.send({
       code: 401,
@@ -48,7 +47,7 @@ router.post('/login', async (req, res) => {
       message: 'error'
     })
   }
-  let values = [req.body.username];
+  let values = [Base64.decode(req.body.username)];
   let sql = "select id,password,isDeleted from user where username=?;";
   let user = await query(sql, values);
   console.log(!user);
