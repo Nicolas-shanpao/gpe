@@ -3,6 +3,7 @@ const request = require('request')
 const jwt = require('jsonwebtoken')
 const SECRET = require("@/config/development")
 const auth = require("@/middleware/auth2")
+const { Base64 } = require('js-base64')
 let express = require('express');
 let router = express.Router();
 /**
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
 
   }
   const isPasswordValid = require('bcrypt').compareSync(
-    req.body.password,
+    Base64.decode(req.body.password),
     user[0].password
   )
   console.log(isPasswordValid);
