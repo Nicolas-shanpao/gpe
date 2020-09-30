@@ -36,7 +36,7 @@ app.all('*', function (req, res, next) {
   //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
   res.header('Access-Control-Allow-Methods', '*');
-  res.header('Content-Type', 'application/json;charset=utf-8');
+  res.header('Content-Type', 'application/json;charset=utf-8,multipart/form-data');
   if (req.method == "OPTIONS") res.send(200);/*让options请求快速返回*/
   else next();
 });
