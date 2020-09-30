@@ -177,9 +177,6 @@ let upload = multer({
 router.get('/getAllFileList', auth, async (req, res) => {
   let sql = "select id,filename,filetype,fileext,filesize,filesizecn,filepath,optid,optname,createdAt,updateAt from file_list";
   let fileList = await query(sql);
-  res.writeHead(200, {
-    "Access-Control-Allow-Origin": "*"//允许跨域。。。
-  });
   res.send({
     code: 200,
     content: fileList,
@@ -211,6 +208,9 @@ router.get('/getAllFileList', auth, async (req, res) => {
 // 如果一直出现500报错信息 Node Multer unexpected field 则需要如此操作
 let avatar = upload.single('avatar')
 router.post('/uploadAvatar', [auth, avatar], async (req, res, next) => {
+  res.writeHead(200, {
+    "Access-Control-Allow-Origin": "*"//允许跨域。。。
+  });
   let pathArray = req.file.path.split('\\')
   pathArray.shift()
   let avatarPath = pathArray.join('/')
