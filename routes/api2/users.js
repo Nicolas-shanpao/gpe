@@ -3,7 +3,7 @@ const request = require('request')
 const jwt = require('jsonwebtoken')
 const SECRET = require("@/config/development")
 const auth = require("@/middleware/auth2")
-const { Base64 } = require('js-base64')
+const {Base64} = require('js-base64')
 let express = require('express');
 let router = express.Router();
 /**
@@ -67,7 +67,6 @@ router.post('/login', async (req, res) => {
     password,
     user[0].password
   )
-  console.log(isPasswordValid);
   if (!isPasswordValid) {
     return res.send({
       code: 401,
@@ -249,47 +248,6 @@ router.post('/signup', async (req, res) => {
       message: 'error'
     })
   }
-
-})
-/**
- * @api {post} /api2/user/changeUserinfo 修改用户信息
- * @apiDescription 修改用户信息
- * @apiName changeUserinfo
- * @apiGroup 用户
- * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
-
- * @apiParam {string} nikename 昵称
- * @apiParam {string} avatar 头像
- * @apiParam {string} introduction 简介
- * @apiParam {string} roles 权限
-
- * @apiSuccess {number} code 具体请看
- * @apiSuccess {json} content
- * @apiSuccess {string} message
- * @apiSuccessExample {json} Success-Response:
- * HTTP/1.1 200 OK
- *  {
- *  "code": 200,
- *  "content": {
- *    "username": "lzz"
- *  },
- *  "message": "注册成功！"
- * }
- * @apiSampleRequest /api2/user/changeUserinfo
- * @apiVersion 2.0.0
- */
-//  修改用户信息
-router.post('/changeUserinfo', auth, async (req, res) => {
-  let values = [req.body.nikename, req.body.introduction, req.body.roles, req.user.id];
-  let sql = "update user set nikename=?,introduction=?,roles=?, where id=?;"
-  let user = await query(sql, values);
-  console.log(user);
-  res.send({
-      code: 200,
-      content: user,
-      message: 'success'
-    }
-  )
 })
 // javaAPI
 router.post('/javaAPI', async (req, res) => {
@@ -432,7 +390,6 @@ router.get('/getOtherUserInfo', auth, async (req, res) => {
 router.get('/getAllUser', auth, async (req, res) => {
   let sql = "select id,username,roles,avatar,nikename,introduction from user;";
   let user = await query(sql);
-  console.log('111111111111' + user)
   res.send({
       code: 200,
       content: user,
@@ -441,4 +398,117 @@ router.get('/getAllUser', auth, async (req, res) => {
   )
 })
 
+/**
+ * @api {post} /api2/user/updateUserInfo 修改用户信息
+ * @apiDescription 修改用户信息
+ * @apiName updateUserInfo
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/updateUserInfo
+ * @apiVersion 2.0.0
+ */
+// 修改用户信息
+router.post('/updateUserInfo', auth, async (req, res) => {
+  console.log(req.body.nikename)
+  let values = [req.body.nikename, req.body.introduction, req.user.id];
+  let sql = "update user set nikename=?,introduction=? where id=?;"
+  let result = await query(sql, values);
+  console.log(result.affectedRows + '-------------')
+  if (result.affectedRows == 1) {
+    res.send({
+        code: 200,
+        content: '修改成功',
+        message: 'success'
+      }
+    )
+  }
+})
+
+
+/**
+ * @api {post} /api2/user/updateUserPassword 修改用户密码
+ * @apiDescription 修改用户密码
+ * @apiName updateUserPassword
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/updateUserPassword
+ * @apiVersion 2.0.0
+ */
+// 修改用户密码
+router.post('/updateUserPassword', auth, async (req, res) => {
+  let oldPwd = Base64.decode(req.body.oldPwd)
+  let newPwd = Base64.decode(req.body.newPwd)
+  let values1 = [req.user.id];
+  let sql1 = "select id,password,isDeleted from user where id=?;";
+  let user = await query(sql1, values1);
+  const isPasswordValid = require('bcrypt').compareSync(
+    oldPwd,
+    user[0].password
+  )
+  console.log(isPasswordValid)
+  if (isPasswordValid) {
+    let values = [require('bcrypt').hashSync(newPwd, 10), req.user.id];
+    let sql = "update user set password=? where id=?;"
+    let result = await query(sql, values);
+    if (result.affectedRows == 1) {
+      res.send({
+          code: 200,
+          content: '修改成功',
+          message: 'success'
+        }
+      )
+    }
+  } else {
+    res.send({
+        code: 401,
+        content: '原密码错误',
+        message: 'error'
+      }
+    )
+  }
+})
 module.exports = router;

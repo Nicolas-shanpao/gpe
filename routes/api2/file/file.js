@@ -107,9 +107,9 @@ async function insterMySQL(files, path, user) {
   let sql = "insert into file_list set filename=?,filetype=?,fileext=?,filesize=?,filesizecn=?,filepath=?,optid=?,optname=?,createdAt=?,updateAt=?;";
   let fileMessage = await query(sql, values);
   if (fileMessage.affectedRows === 1 && fileMessage.insertId) {
-    return '上传成功'
+    return true
   } else {
-    return '上传失败'
+    return false
   }
 }
 
@@ -211,24 +211,48 @@ router.post('/uploadAvatar', [auth, avatar], async (req, res, next) => {
   let pathArray = req.file.path.split('\\')
   pathArray.shift()
   let avatarPath = pathArray.join('/')
-  avatarPath = 'http://10.25.106.117:3000/' + avatarPath
+  avatarPath = 'http://bim.checc.com.cn/lzzAPI/' + avatarPath
   let moreData
   try {
     new ExifImage({image: req.file.path}, async function (error, exifData) {
+      let message = await insterMySQL(req.file, avatarPath, req.user)
+      if (!message) return false
       if (error) {
         console.log('Error: ' + error.message);
+        let values = [avatarPath, req.user.id];
+        let sql = "update user set avatar=? where id=?;"
+        let result = await query(sql, values);
+        if (result.affectedRows == 1) {
+          res.send({
+              code: 200,
+              content: '修改成功',
+              message: 'success'
+            }
+          )
+        }
       } else {
         moreData = exifData
-        let message = await insterMySQL(req.file, avatarPath, req.user)
-        res.send({
-            code: 200,
-            data: {
-              moreData,
-              avatarPath: avatarPath
-            },
-            message: message
-          }
-        )
+        let values = [avatarPath, req.user.id];
+        let sql = "update user set avatar=? where id=?;"
+        let result = await query(sql, values);
+        if (result.affectedRows == 1) {
+          res.send({
+              code: 200,
+              content: '修改成功',
+              message: 'success'
+            }
+          )
+        }
+
+        // res.send({
+        //     code: 200,
+        //     data: {
+        //       moreData,
+        //       avatarPath: avatarPath
+        //     },
+        //     message: message
+        //   }
+        // )
       }
     });
   } catch (error) {
