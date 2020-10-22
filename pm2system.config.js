@@ -14,7 +14,7 @@ module.exports = {
       autorestart: true,
       watch: true,// 监控变化的目录，一旦变化，自动重启
       watch_delay: 1000,
-      ignore_watch: ["node_modules"],// 从监控目录中排除
+      ignore_watch: ["node_modules","error.log","out.log"],// 从监控目录中排除
       watch_options: {
         "followSymlinks": false,
         "usePolling": true,
