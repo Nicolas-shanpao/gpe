@@ -230,7 +230,7 @@ router.post('/signup', async (req, res) => {
     let values2 = [
       username,      //username
       req.body.nikename,      //nikename
-      "editor",                //roles
+      '["visitor"]',                //roles
       '',                     //introduction
       'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',    //avatar
       require('bcrypt').hashSync(password, 10),
