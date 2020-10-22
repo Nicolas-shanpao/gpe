@@ -177,7 +177,16 @@ router.get('/userList', auth, async (req, res) => {
  */
 // 获取用户信息
 router.get('/getUserinfo', [auth], async (req, res) => {
-  console.log(req.roles)
+  let values = [req.user.roles];
+  let sql = "select routes from role where code in (?);";
+  let resRolesList = await query(sql, values);
+  let routesList = []
+  resRolesList.map(v => {
+    let routes = JSON.parse(v.routes)
+    routesList = [...routesList, ...routes]
+  })
+  routesList = new Set(routesList)
+  req.user.routes = [...routesList]
   res.send({
       code: 200,
       content: req.user,
@@ -379,10 +388,13 @@ router.get('/getOtherUserInfo', auth, async (req, res) => {
 // 获取所有用户
 router.get('/getAllUser', auth, async (req, res) => {
   let sql = "select id,username,roles,avatar,nikename,introduction from user;";
-  let user = await query(sql);
+  let userList = await query(sql);
+  userList.map(v => {
+    v.roles = JSON.parse(v.roles)
+  })
   res.send({
       code: 200,
-      content: user,
+      content: userList,
       message: 'success'
     }
   )
@@ -469,24 +481,15 @@ router.post('/updateUserInfo', auth, async (req, res) => {
  */
 // 更新用户权限
 router.post('/updateUserRoles', [auth, adminAuth], async (req, res) => {
-  if (req.user.roles === 'admin') {
-    let valus = [req.body.roles, req.body.id]
-    let sql = "update user set roles=? where id=?;";
-    let user = await query(sql, valus);
-    res.send({
-        code: 200,
-        content: user,
-        message: 'success'
-      }
-    )
-  } else {
-    res.send({
-        code: 201,
-        content: '您的权限不够',
-        message: 'success'
-      }
-    )
-  }
+  let valus = [req.body.roles, req.body.id]
+  let sql = "update user set roles=? where id=?;";
+  let result = await query(sql, valus);
+  res.send({
+      code: 200,
+      content: result,
+      message: 'success'
+    }
+  )
 })
 /**
  * @api {post} /api2/user/updateUserPassword 修改用户密码

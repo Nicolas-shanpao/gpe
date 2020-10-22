@@ -8,6 +8,13 @@ const config = {
     PORT: "3306",
     HOST: "localhost"
   },
+  // database: {
+  //   DATABASE: "BasicLibrary",
+  //   USERNAME: "rootbim",
+  //   PASSWORD: "RootBim2020!@#$",
+  //   PORT: "3306",
+  //   HOST: "localhost"
+  // },
   // 数据库配置(本地)
   // database: {
   //   DATABASE: "lzztest",

@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('module-alias/register')
-var baseSet = require('./baseSet')
 // 路由
 // var usersRouter = require('./routes/api/users');
 // var pointsRouter = require('./routes/api/points');

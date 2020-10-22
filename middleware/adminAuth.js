@@ -16,8 +16,8 @@ let auth = async (req, res, next) => {
         // 如果验证通过，在req中写入解密结果
         const {id} = decoded
         let values = [id];
-        let sql = "select roles from user where id=?;";
-        let rolesList = await query(sql, values);
+        let sql = "select roles from user where id=?;"
+        let rolesList = await query(sql, values)
         let roles = rolesList[0].roles
         if (JSON.parse(roles).includes('admin')) {
           next(); //继续下一步路由
