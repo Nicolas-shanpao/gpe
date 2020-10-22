@@ -134,7 +134,7 @@ router.post('/addRole', [auth, adminAuth], async (req, res) => {
  */
 // 更新用户权限
 router.post('/updateRole', auth, async (req, res) => {
-  let values = [req.body.name, req.body.code, req.body.description, req.body.routes, req.body.id, new Date().getTime()];
+  let values = [req.body.name, req.body.code, req.body.description, req.body.routes, new Date().getTime(), req.body.id];
   let sql = "update role set name=?,code=?,description=?,routes=?,updateAt=? where id=?;";
   let roles = await query(sql, values);
   res.send({
