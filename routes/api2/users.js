@@ -2,7 +2,9 @@ const query = require("@/config/controller");
 const request = require('request')
 const jwt = require('jsonwebtoken')
 const SECRET = require("@/config/development")
+const redisClient = require("@/config/redis")
 const auth = require("@/middleware/auth2")
+const sendCode = require("@/middleware/sendCode")
 const adminAuth = require("@/middleware/adminAuth")
 const {Base64} = require('js-base64')
 let express = require('express');
@@ -260,6 +262,7 @@ router.post('/signup', async (req, res) => {
     })
   }
 })
+
 // javaAPI
 router.post('/javaAPI', async (req, res) => {
   console.log(req);
@@ -491,6 +494,7 @@ router.post('/updateUserRoles', [auth, adminAuth], async (req, res) => {
     }
   )
 })
+
 /**
  * @api {post} /api2/user/updateUserPassword 修改用户密码
  * @apiDescription 修改用户密码
@@ -601,4 +605,79 @@ router.post('/resetPassword', adminAuth, async (req, res) => {
     )
   }
 })
+/**
+ * @api {post} /api2/user/checkCode 验证码
+ * @apiDescription 验证码
+ * @apiName checkCode
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/resetPassword
+ * @apiVersion 2.0.0
+ */
+// 验证码
+
+/*
+ 生成指定长度的随机数
+ */
+function randomCode(length) {
+  let chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  let result = ""; //统一改名: alt + shift + R
+  for (let i = 0; i < length; i++) {
+    let index = Math.ceil(Math.random() * 9);
+    result += chars[index];
+  }
+  return result;
+}
+
+router.post('/sendCode', auth, async (req, res) => {
+  let phone = req.body.phone
+  let code = randomCode(6)
+  console.log(phone);
+  console.log(code);
+  sendCode(phone, code, function (response) {
+    console.log(response + '-----------------');
+    if (response) {
+      // 测试
+      redisClient.set(phone, code, function (err, obj) {
+        console.log(err, obj)
+      })
+      res.send({
+          code: 200,
+          content: '发送成功',
+          message: 'success'
+        }
+      )
+    } else {
+      res.send({
+          code: 200,
+          content: '发送失败',
+          message: 'error'
+        }
+      )
+    }
+  })
+})
+
 module.exports = router;
