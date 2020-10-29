@@ -16,11 +16,14 @@ let auth = async (req, res, next) => {
         // 如果验证通过，在req中写入解密结果
         const {id} = decoded
         let values = [id];
-        let sql = "select id,username,roles,avatar,nikename,introduction from user where id=?;";
+        let sql = "select id,username,roles,phone,avatar,nikename,introduction from user where id=?;";
         let userList = await query(sql, values)
         console.log(userList[0])
         let user = userList[0]
         user.roles = JSON.parse(userList[0].roles)
+        let strNum = user.phone
+        let strNum2 = strNum.substr(0, 3) + '****' + strNum.substr(7)
+        user.phone = strNum2
         console.log(user)
         req.user = user
         next(); //继续下一步路由

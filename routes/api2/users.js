@@ -230,16 +230,17 @@ router.post('/signup', async (req, res) => {
   console.log(username);
   if (user1.length === 0) {
     let values2 = [
-      username,      //username
+      username,               //username
       req.body.nikename,      //nikename
-      '["visitor"]',                //roles
+      '["visitor"]',          //roles
+      '',                     //phone
       '',                     //introduction
       'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',    //avatar
       require('bcrypt').hashSync(password, 10),
       new Date().getTime(),
       new Date().getTime()
     ];
-    let sql2 = "insert into user set username=?,nikename=?,roles=?,introduction=?,avatar=?,password=?,createdAt=?,updateAt=?;";
+    let sql2 = "insert into user set username=?,nikename=?,roles=?,phone=?,introduction=?,avatar=?,password=?,createdAt=?,updateAt=?;";
     let user2 = await query(sql2, values2);
     if (user2.affectedRows === 1) {
       res.send({
@@ -605,10 +606,11 @@ router.post('/resetPassword', adminAuth, async (req, res) => {
     )
   }
 })
+
 /**
- * @api {post} /api2/user/checkCode 验证码
- * @apiDescription 验证码
- * @apiName checkCode
+ * @api {post} /api2/user/sendBCode 绑定验证码
+ * @apiDescription 绑定验证码
+ * @apiName sendBCode
  * @apiGroup 用户
  * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
  * @apiSuccess {number} code 具体请看
@@ -633,10 +635,9 @@ router.post('/resetPassword', adminAuth, async (req, res) => {
  *  },
  *  "message": "success"
  * }
- * @apiSampleRequest /api2/user/resetPassword
+ * @apiSampleRequest /api2/user/sendBCode
  * @apiVersion 2.0.0
  */
-// 验证码
 
 /*
  生成指定长度的随机数
@@ -651,7 +652,8 @@ function randomCode(length) {
   return result;
 }
 
-router.post('/sendCode', auth, async (req, res) => {
+// 绑定验证码B
+router.post('/sendBCode', auth, async (req, res) => {
   let phone = req.body.phone
   let code = randomCode(6)
   console.log(phone);
@@ -660,9 +662,11 @@ router.post('/sendCode', auth, async (req, res) => {
     console.log(response + '-----------------');
     if (response) {
       // 测试
-      redisClient.set(phone, code, function (err, obj) {
-        console.log(err, obj)
+      redisClient.set(phone + '-B', code, function (err, obj) {
+        console.log(err, obj + '-----------')
+        console.log(null, 'OK')
       })
+      redisClient.expire(phone + '-B', 600);
       res.send({
           code: 200,
           content: '发送成功',
@@ -680,4 +684,189 @@ router.post('/sendCode', auth, async (req, res) => {
   })
 })
 
+
+/**
+ * @api {post} /api2/user/sendCCode 修改验证码
+ * @apiDescription 修改验证码
+ * @apiName sendCCode
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/sendCCode
+ * @apiVersion 2.0.0
+ */
+
+// 修改手机号的验证码C
+router.post('/sendCCode', auth, async (req, res) => {
+  let phone
+  let code = randomCode(6)
+  let values = [req.user.id];
+  let sql = "select phone from user where id=?;";
+  let result = await query(sql, values)
+  phone = result[0].phone
+  sendCode(phone, code, function (response) {
+    console.log(response + '-----------------');
+    if (response) {
+      // 测试
+      redisClient.set(phone + '-C', code, function (err, obj) {
+        console.log(err, obj + '-----------')
+        console.log(null, 'OK')
+      })
+      redisClient.expire(phone + '-C', 600);
+      res.send({
+          code: 200,
+          content: '发送成功',
+          message: 'success'
+        }
+      )
+    } else {
+      res.send({
+          code: 200,
+          content: '发送失败',
+          message: 'error'
+        }
+      )
+    }
+  })
+})
+/**
+ * @api {post} /api2/user/checkChangeCode 检查验证码真伪
+ * @apiDescription 检查验证码真伪
+ * @apiName checkChangeCode
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/checkChangeCode
+ * @apiVersion 2.0.0
+ */
+// 检查验证码真伪
+router.post('/checkChangeCode', auth, async (req, res) => {
+  let phone
+  let code = req.body.code
+  let values = [req.user.id];
+  let sql = "select phone from user where id=?;";
+  let result = await query(sql, values)
+  phone = result[0].phone
+  redisClient.get(phone + '-C', async function (err, data) {
+    console.log(data);         // 6
+    if (code === data) {
+      let values = [req.body.phone, req.user.id];
+      let sql = "update user set phone=? where id=?;"
+      let result = await query(sql, values);
+      res.send({
+          code: 200,
+          content: result,
+          message: 'success'
+        }
+      )
+    } else {
+      res.send({
+          code: 200,
+          content: '验证码错误',
+          message: 'success'
+        }
+      )
+    }
+  })
+})
+/**
+ * @api {post} /api2/user/bindUserPhone 绑定手机号
+ * @apiDescription 绑定手机号
+ * @apiName bindUserPhone
+ * @apiGroup 用户
+ * @apiHeader authorization eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMjdjOTZhNTExNzdmNDIxY2ExNjI5NCIsImlhdCI6MTU5NjQ0Njc5MH0.ztinMsRDhVVKLh5GNbgngD7YsHOgj1OgCFYxz4V3MzM
+ * @apiSuccess {number} code 具体请看
+ * @apiSuccess {json} content
+ * @apiSuccess {string} message
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ *  {
+ *  "code": 200,
+ *  "content": {
+ *      "roles": [
+ *          "admin"
+ *      ],
+ *      "isDeleted": 0,
+ *      "_id": "5f22910ccf2a793e64e74202",
+ *      "username": "g15",
+ *      "introduction": "这个人很懒，啥也没留......",
+ *      "avatar": "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
+ *      "nikename": "g15",
+ *      "project": "g15",
+ *      "__v": 0
+ *  },
+ *  "message": "success"
+ * }
+ * @apiSampleRequest /api2/user/bindUserPhone
+ * @apiVersion 2.0.0
+ */
+// 绑定手机号
+router.post('/bindUserPhone', auth, async (req, res) => {
+  let phone = req.body.phone
+  let code = req.body.code
+  console.log(req.body.code)
+  redisClient.get(phone + '-B', async function (err, data) {
+    console.log(data);         // 6
+    if (code === data) {
+      let values = [req.body.phone, req.user.id];
+      let sql = "update user set phone=? where id=?;"
+      let result = await query(sql, values);
+      res.send({
+          code: 200,
+          content: result,
+          message: 'success'
+        }
+      )
+    } else {
+      res.send({
+          code: 200,
+          content: '验证码错误',
+          message: 'success'
+        }
+      )
+    }
+  })
+})
 module.exports = router;
