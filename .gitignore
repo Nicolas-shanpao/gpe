@@ -20,3 +20,4 @@ yarn-error.log*
 /video/123123123.mp4
 /*.log
 /public/apidoc/
+/public/uploads/
