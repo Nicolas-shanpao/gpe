@@ -197,4 +197,15 @@ router.post('/deleteRole', auth, async (req, res) => {
     )
   }
 })
+
+router.get('/test', async (req, res) => {
+  res.send({
+      code: 200,
+      content: {
+        data: 123213213123
+      },
+      message: 'success'
+    }
+  )
+})
 module.exports = router;
