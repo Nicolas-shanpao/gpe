@@ -56,6 +56,7 @@ let sendCode = function (phone, code, callback) {
     body: body,
     json: true
   }, function (error, response, body) {
+    console.log(body)
     callback(body.statusCode === '000000');
     // callback(true);
   });

@@ -22,8 +22,10 @@ let auth = async (req, res, next) => {
         let user = userList[0]
         user.roles = JSON.parse(userList[0].roles)
         let strNum = user.phone
-        let strNum2 = strNum.substr(0, 3) + '****' + strNum.substr(7)
-        user.phone = strNum2
+        if(strNum){
+          let strNum2 = strNum.substr(0, 3) + '****' + strNum.substr(7)
+          user.phone = strNum2
+        }
         console.log(user)
         req.user = user
         next(); //继续下一步路由
