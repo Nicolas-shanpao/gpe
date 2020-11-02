@@ -774,7 +774,7 @@ router.post('/bindUserPhone', auth, async (req, res) => {
       res.send({
           code: 200,
           content: '验证码错误',
-          message: 'success'
+          message: 'error'
         }
       )
     }
@@ -814,35 +814,45 @@ router.post('/bindUserPhone', auth, async (req, res) => {
  */
 // 获取验证码BCode
 router.post('/getBCode', auth, async (req, res) => {
-  let phone = req.body.phone
-  let code = randomCode(6)
-  console.log(phone);
-  console.log(code);
-  sendCode(phone, code, function (response) {
-    console.log(response + '-----------------');
-    if (response) {
-      // 测试
-      redisClient.set(phone + '-B', code, function (err, obj) {
-        console.log(err, obj + '-----------')
-        console.log(null, 'OK')
-      })
-      redisClient.expire(phone + '-B', 600);
-      res.send({
-          code: 200,
-          content: '发送成功',
-          message: 'success'
+    let phone = req.body.phone
+    let values1 = [phone];
+    let sql1 = "select id from user where phone=?;";
+    let phoneUser = await query(sql1, values1);
+    if (phoneUser.length === 0) {
+      let code = randomCode(6)
+      sendCode(phone, code, function (response) {
+        console.log(response + '-----------------');
+        if (response) {
+          // 测试
+          redisClient.set(phone + '-B', code, function (err, obj) {
+            console.log(err, obj + '-----------')
+            console.log(null, 'OK')
+          })
+          redisClient.expire(phone + '-B', 600);
+          res.send({
+              code: 200,
+              content: '发送成功',
+              message: 'success'
+            }
+          )
+        } else {
+          res.send({
+              code: 200,
+              content: '发送失败',
+              message: 'error'
+            }
+          )
         }
-      )
+      })
     } else {
       res.send({
-          code: 200,
-          content: '发送失败',
-          message: 'error'
-        }
-      )
+        code: 201,
+        content: '手机号已被占用！',
+        message: 'error'
+      })
     }
-  })
-})
+  }
+)
 
 
 /**
